@@ -12,9 +12,10 @@ def create_regions(world: "OneShotWorld"):
     starter_house = create_region_and_connect(world, "Starter House", "Menu -> Starter House",          menu)
     barrens       = create_region_and_connect(world, "Barrens",       "Starter House -> Barrens",       starter_house)
     glen          = create_region_and_connect(world, "Glen",           "Starter House -> Glen",          starter_house)
-    refuge        = create_region_and_connect(world, "Refuge",         "Starter House -> Refuge",        starter_house)
+    refuge_upper        = create_region_and_connect(world, "Refuge Upper",         "Starter House -> Refuge Upper",        starter_house)
+    refuge_lower        = create_region_and_connect(world, "Refuge Lower",         "Refuge Upper -> Refuge Lower",         refuge_upper)
 
-    tower         = create_region_and_connect(world, "Tower",          "Refuge -> Tower",                refuge)
+    tower         = create_region_and_connect(world, "Tower",          "Refuge -> Tower",                refuge_lower)
     endgame       = create_region_and_connect(world, "Endgame",        "Tower -> Endgame",               tower)
     solstice = create_region_and_connect(world, "Solstice", "Starter House -> Solstice", starter_house)
 
