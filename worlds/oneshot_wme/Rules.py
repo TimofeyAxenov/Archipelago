@@ -28,8 +28,7 @@ def set_rules(world: "OneShotWorld"):
 
     # Tower requires Tower Key + elevator items
     set_rule(world.multiworld.get_entrance("Refuge -> Tower", player),
-             lambda state: state.has("Tower Key", player) and
-                           state.has("Die", player) and
+             lambda state: state.has("Die", player) and
                            state.has("Amber", player) and
                            state.has("Feather", player) and
                            state.has("Lightbulb", player))

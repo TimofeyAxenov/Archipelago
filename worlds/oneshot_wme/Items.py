@@ -94,7 +94,6 @@ key_items = {
     "Barrens Key":             ItemData(ITEM_ID_BASE + 700, ItemClassification.progression),
     "Glen Key":                ItemData(ITEM_ID_BASE + 701, ItemClassification.progression),
     "Refuge Key":              ItemData(ITEM_ID_BASE + 702, ItemClassification.progression),
-    "Tower Key":               ItemData(ITEM_ID_BASE + 703, ItemClassification.progression),
     "Solstice Protocol":       ItemData(ITEM_ID_BASE + 704, ItemClassification.progression),
 
     # Starter House
@@ -113,7 +112,7 @@ key_items = {
     "Empty Syringe":           ItemData(ITEM_ID_BASE + 21, ItemClassification.useful),
     "Amber":                   ItemData(ITEM_ID_BASE + 23, ItemClassification.progression),
     "Strange Journal":         ItemData(ITEM_ID_BASE + 24, ItemClassification.progression),
-    "Gas Mask":                ItemData(ITEM_ID_BASE + 47, ItemClassification.progression),
+    "Gas Mask":                ItemData(ITEM_ID_BASE + 47, ItemClassification.useful),
     "Rubber Gloves":           ItemData(ITEM_ID_BASE + 48, ItemClassification.useful),
 
     # Glen
