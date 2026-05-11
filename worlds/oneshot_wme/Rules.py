@@ -31,11 +31,8 @@ def set_rules(world: "OneShotWorld"):
              lambda state: state.has("Tower Key", player) and
                            state.has("Die", player) and
                            state.has("Amber", player) and
-                           state.has("Feather", player))
-
-    # Endgame requires Memory Card
-    set_rule(world.multiworld.get_entrance("Tower -> Endgame", player),
-             lambda state: state.has("Memory Card", player))
+                           state.has("Feather", player) and
+                           state.has("Lightbulb", player))
 
     # Solstice requires Solstice Protocol + Glowing Journal
     set_rule(world.multiworld.get_entrance("Starter House -> Solstice", player),
