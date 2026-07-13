@@ -35,7 +35,7 @@ class GameGoal(Choice):
     display_name = "Goal Ending"
     option_leave = 0
     option_normal = 1
-    option_solstice = 2
+#    option_solstice = 2
     default = 1
 
 

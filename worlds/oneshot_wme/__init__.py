@@ -46,6 +46,14 @@ class OneShotWorld(World):
     def create_items(self):
         self.multiworld.itempool += create_itempool(self)
 
+        starting_zone = self.options.StartingZone.value
+        if starting_zone == 1:
+            self.multiworld.push_precollected(self.create_item("Barrens Key"))
+        elif starting_zone == 2:
+            self.multiworld.push_precollected(self.create_item("Glen Key"))
+        elif starting_zone == 3:
+            self.multiworld.push_precollected(self.create_item("Refuge Key"))
+
     def create_item(self, name: str) -> Item:
         return create_item(self, name)
 
@@ -53,6 +61,9 @@ class OneShotWorld(World):
         set_rules(self)
 
     def fill_slot_data(self) -> Dict[str, object]:
+        zone_to_key = {1: "Barrens Key", 2: "Glen Key", 3: "Refuge Key"}
+        starting_key_code = item_table[zone_to_key[self.options.StartingZone.value]].ap_code
+
         return {
             "options": {
                 "Goal":                 self.options.GameGoal.value,
@@ -67,6 +78,7 @@ class OneShotWorld(World):
                 "SpookyPopupTrapWeight":  self.options.SpookyPopupTrapWeight.value,
                 "CrashTrapWeight":        self.options.CrashTrapWeight.value,
             },
+            "starting_key": starting_key_code,
             "Seed":           self.multiworld.seed_name,
             "Slot":           self.multiworld.player_name[self.player],
             "TotalLocations": get_total_locations(self),

@@ -1,6 +1,6 @@
 import logging
 from BaseClasses import Item, ItemClassification
-from .Types import ItemData, OneShotItem
+from .Types import ItemData, LocData, OneShotItem
 from .Locations import get_total_locations
 from typing import List, Dict, TYPE_CHECKING
 
@@ -12,12 +12,19 @@ ITEM_ID_BASE = 7_770_000
 
 def create_itempool(world: "OneShotWorld") -> List[Item]:
     itempool: List[Item] = []
+    starting_zone = world.options.StartingZone.value
 
     # Always include key items
     for name in key_items.keys():
         if name == "Photo of Niko":
             for i in range(0, 9):
                 itempool.append(create_item(world, name))
+        elif name == "Barrens Key" and starting_zone == 1:
+            continue  # precollected based on StartingZone option
+        elif name == "Glen Key" and starting_zone == 2:
+            continue  # precollected based on StartingZone option
+        elif name == "Refuge Key" and starting_zone == 3:
+            continue  # precollected based on StartingZone option
         else:
             itempool.append(create_item(world, name))
 
@@ -50,8 +57,8 @@ def create_itempool(world: "OneShotWorld") -> List[Item]:
         world.multiworld.get_location("Leave", world.player).place_locked_item(victory)
     elif goal == 1:
         world.multiworld.get_location("Victory?", world.player).place_locked_item(victory)
-    else:
-        world.multiworld.get_location("Solstice", world.player).place_locked_item(victory)
+#    else:
+#        world.multiworld.get_location("Solstice", world.player).place_locked_item(victory)
 
     # Fill remaining locations with junk
     remaining = get_total_locations(world) - len(itempool)
@@ -94,157 +101,170 @@ key_items = {
     "Barrens Key":             ItemData(ITEM_ID_BASE + 700, ItemClassification.progression),
     "Glen Key":                ItemData(ITEM_ID_BASE + 701, ItemClassification.progression),
     "Refuge Key":              ItemData(ITEM_ID_BASE + 702, ItemClassification.progression),
-    "Solstice Protocol":       ItemData(ITEM_ID_BASE + 704, ItemClassification.progression),
+#    "Solstice Protocol":       ItemData(ITEM_ID_BASE + 704, ItemClassification.progression),
 
     # Starter House
 #    "Television Remote":       ItemData(ITEM_ID_BASE + 2, ItemClassification.progression),
     "Lightbulb":               ItemData(ITEM_ID_BASE + 1,  ItemClassification.progression),
-    "Bottle of Alcohol":       ItemData(ITEM_ID_BASE + 3,  ItemClassification.useful),
-    "Dry Branch":              ItemData(ITEM_ID_BASE + 4,  ItemClassification.useful),
-    "Basement Key":            ItemData(ITEM_ID_BASE + 7,  ItemClassification.useful),
+    "Bottle of Alcohol":       ItemData(ITEM_ID_BASE + 3,  ItemClassification.progression),
+    "Dry Branch":              ItemData(ITEM_ID_BASE + 4,  ItemClassification.progression),
+    "Basement Key":            ItemData(ITEM_ID_BASE + 7,  ItemClassification.progression),
 
     # Barrens
-    "Camera":                  ItemData(ITEM_ID_BASE + 8,  ItemClassification.useful),
-    "Screwdriver":             ItemData(ITEM_ID_BASE + 9,  ItemClassification.useful),
-    "Broken Battery":          ItemData(ITEM_ID_BASE + 12, ItemClassification.useful),
-    "Metal Rod":               ItemData(ITEM_ID_BASE + 19, ItemClassification.useful),
-    "Sponge":                  ItemData(ITEM_ID_BASE + 20, ItemClassification.useful),
-    "Empty Syringe":           ItemData(ITEM_ID_BASE + 21, ItemClassification.useful),
+    "Camera":                  ItemData(ITEM_ID_BASE + 8,  ItemClassification.progression),
+    "Screwdriver":             ItemData(ITEM_ID_BASE + 9,  ItemClassification.progression),
+    "Broken Battery":          ItemData(ITEM_ID_BASE + 12, ItemClassification.progression),
+    "Metal Rod":               ItemData(ITEM_ID_BASE + 19, ItemClassification.progression),
+    "Sponge":                  ItemData(ITEM_ID_BASE + 20, ItemClassification.progression),
+    "Empty Syringe":           ItemData(ITEM_ID_BASE + 21, ItemClassification.progression),
     "Amber":                   ItemData(ITEM_ID_BASE + 23, ItemClassification.progression),
     "Strange Journal":         ItemData(ITEM_ID_BASE + 24, ItemClassification.progression),
-    "Gas Mask":                ItemData(ITEM_ID_BASE + 47, ItemClassification.useful),
-    "Rubber Gloves":           ItemData(ITEM_ID_BASE + 48, ItemClassification.useful),
+    "Gas Mask":                ItemData(ITEM_ID_BASE + 47, ItemClassification.progression),
+    "Rubber Gloves":           ItemData(ITEM_ID_BASE + 48, ItemClassification.progression),
 
     # Glen
     "Feather":                 ItemData(ITEM_ID_BASE + 25, ItemClassification.progression),
-    "Bottle of Dye":           ItemData(ITEM_ID_BASE + 26, ItemClassification.useful),
-    "Tube of Water":           ItemData(ITEM_ID_BASE + 27, ItemClassification.useful),
-    "Seed":                    ItemData(ITEM_ID_BASE + 28, ItemClassification.useful),
-    "Wool":                    ItemData(ITEM_ID_BASE + 29, ItemClassification.useful),
-    "Novelty T-Shirt":         ItemData(ITEM_ID_BASE + 50, ItemClassification.useful),
+    "Bottle of Dye":           ItemData(ITEM_ID_BASE + 26, ItemClassification.progression),
+    "Tube of Water":           ItemData(ITEM_ID_BASE + 27, ItemClassification.progression),
+    "Seed":                    ItemData(ITEM_ID_BASE + 28, ItemClassification.progression),
+    "Wool":                    ItemData(ITEM_ID_BASE + 29, ItemClassification.progression),
+    "Novelty T-Shirt":         ItemData(ITEM_ID_BASE + 50, ItemClassification.progression),
 
 
     # Refuge
     "Die":                     ItemData(ITEM_ID_BASE + 31, ItemClassification.progression),
-    "Magnets":                 ItemData(ITEM_ID_BASE + 36, ItemClassification.useful),
-    "Metal Can":               ItemData(ITEM_ID_BASE + 37, ItemClassification.useful),
-    "Scissors":                ItemData(ITEM_ID_BASE + 38, ItemClassification.useful),
+    "Magnets":                 ItemData(ITEM_ID_BASE + 36, ItemClassification.progression),
+    "Metal Can":               ItemData(ITEM_ID_BASE + 37, ItemClassification.progression),
+    "Scissors":                ItemData(ITEM_ID_BASE + 38, ItemClassification.progression),
     "Weird Film":              ItemData(ITEM_ID_BASE + 39, ItemClassification.progression),
-    "Concave Lens":            ItemData(ITEM_ID_BASE + 40, ItemClassification.useful),
-    "Convex Lens":             ItemData(ITEM_ID_BASE + 41, ItemClassification.useful),
-    "Thin Lens":               ItemData(ITEM_ID_BASE + 42, ItemClassification.useful),
-    "Thick Lens":              ItemData(ITEM_ID_BASE + 43, ItemClassification.useful),
-    "Kips Library Card":       ItemData(ITEM_ID_BASE + 46, ItemClassification.useful),
-    "Glitter Glue":            ItemData(ITEM_ID_BASE + 44, ItemClassification.useful),
-    "Photo of Niko":           ItemData(ITEM_ID_BASE + 45, ItemClassification.useful),
+    "Concave Lens":            ItemData(ITEM_ID_BASE + 40, ItemClassification.progression),
+    "Convex Lens":             ItemData(ITEM_ID_BASE + 41, ItemClassification.progression),
+    "Thin Lens":               ItemData(ITEM_ID_BASE + 42, ItemClassification.progression),
+    "Thick Lens":              ItemData(ITEM_ID_BASE + 43, ItemClassification.progression),
+    "Kips Library Card":       ItemData(ITEM_ID_BASE + 46, ItemClassification.progression),
+    "Glitter Glue":            ItemData(ITEM_ID_BASE + 44, ItemClassification.progression),
+    "Photo of Niko":           ItemData(ITEM_ID_BASE + 45, ItemClassification.progression),
     "Photo of Niko (Blink)":   ItemData(ITEM_ID_BASE + 66, ItemClassification.filler),
-    "Water Pill":              ItemData(ITEM_ID_BASE + 56, ItemClassification.useful),
-    "Dirt":                    ItemData(ITEM_ID_BASE + 55, ItemClassification.useful),
+    "Water Pill":              ItemData(ITEM_ID_BASE + 56, ItemClassification.progression),
+    "Dirt":                    ItemData(ITEM_ID_BASE + 55, ItemClassification.progression),
 
 
 
     # Tower / solstice
-    "Memory Card":             ItemData(ITEM_ID_BASE + 75, ItemClassification.progression),
-    "Memory Card (Backup)":    ItemData(ITEM_ID_BASE + 76, ItemClassification.progression),
-    "Music Box":               ItemData(ITEM_ID_BASE + 78, ItemClassification.progression),
-    "Charged Battery (Green)": ItemData(ITEM_ID_BASE + 77, ItemClassification.progression),
+#    "Memory Card":             ItemData(ITEM_ID_BASE + 75, ItemClassification.progression),
+#    "Memory Card (Backup)":    ItemData(ITEM_ID_BASE + 76, ItemClassification.progression),
+#    "Music Box":               ItemData(ITEM_ID_BASE + 78, ItemClassification.progression),
+#    "Charged Battery (Green)": ItemData(ITEM_ID_BASE + 77, ItemClassification.progression),
 }
 
 # ── Craft items (only when IncludeCrafts enabled) ─────────────────────────────
 craft_items = {
     # Starter House
-    "Wet Branch":              ItemData(ITEM_ID_BASE + 5,  ItemClassification.useful),
-    "Torch":                   ItemData(ITEM_ID_BASE + 6,  ItemClassification.useful),
-    "Empty Bottle":            ItemData(ITEM_ID_BASE + 11, ItemClassification.useful),
+    "Wet Branch":              ItemData(ITEM_ID_BASE + 5,  ItemClassification.progression),
+    "Torch":                   ItemData(ITEM_ID_BASE + 6,  ItemClassification.progression),
+    "Empty Bottle":            ItemData(ITEM_ID_BASE + 11, ItemClassification.progression),
 
     # Barrens
-    "Empty Battery":           ItemData(ITEM_ID_BASE + 13, ItemClassification.useful),
-    "Charged Battery":         ItemData(ITEM_ID_BASE + 14, ItemClassification.useful),
-    "Bottle of Smoke":         ItemData(ITEM_ID_BASE + 15, ItemClassification.useful),
-    "Bottle of Acid":          ItemData(ITEM_ID_BASE + 16, ItemClassification.useful),
-    "Wet Sponge":              ItemData(ITEM_ID_BASE + 17, ItemClassification.useful),
-    "Crowbar":                 ItemData(ITEM_ID_BASE + 18, ItemClassification.useful),
-    "Filled Syringe":          ItemData(ITEM_ID_BASE + 22, ItemClassification.useful),
-    "Lens":                    ItemData(ITEM_ID_BASE + 10, ItemClassification.useful),
+    "Empty Battery":           ItemData(ITEM_ID_BASE + 13, ItemClassification.progression),
+    "Charged Battery":         ItemData(ITEM_ID_BASE + 14, ItemClassification.progression),
+    "Bottle of Smoke":         ItemData(ITEM_ID_BASE + 15, ItemClassification.progression),
+    "Bottle of Acid":          ItemData(ITEM_ID_BASE + 16, ItemClassification.progression),
+    "Wet Sponge":              ItemData(ITEM_ID_BASE + 17, ItemClassification.progression),
+    "Crowbar":                 ItemData(ITEM_ID_BASE + 18, ItemClassification.progression),
+    "Filled Syringe":          ItemData(ITEM_ID_BASE + 22, ItemClassification.progression),
+    "Lens":                    ItemData(ITEM_ID_BASE + 10, ItemClassification.progression),
 
     # Glen
     "Feather Pen":             ItemData(ITEM_ID_BASE + 30, ItemClassification.progression),
 
     # Refuge
-    "Button (?)":              ItemData(ITEM_ID_BASE + 32, ItemClassification.useful),
-    "Magnetized (?) Button":   ItemData(ITEM_ID_BASE + 33, ItemClassification.useful),
+    "Button (?)":              ItemData(ITEM_ID_BASE + 32, ItemClassification.progression),
+    "Magnetized (?) Button":   ItemData(ITEM_ID_BASE + 33, ItemClassification.progression),
     "Taped Button":            ItemData(ITEM_ID_BASE + 34, ItemClassification.progression),
-    "Photo of Niko (Sticky)":  ItemData(ITEM_ID_BASE + 54, ItemClassification.progression),
-    "Nikos Library Card":      ItemData(ITEM_ID_BASE + 51, ItemClassification.useful),
+#    "Photo of Niko (Sticky)":  ItemData(ITEM_ID_BASE + 54, ItemClassification.progression),
+    "Niko's Library Card":      ItemData(ITEM_ID_BASE + 51, ItemClassification.progression),
     "Medicated Water":         ItemData(ITEM_ID_BASE + 57, ItemClassification.progression),
 }
 
 # ── External TWM file items (only when IncludeExternalFiles enabled) ──────────
 file_items = {
-    "Outpost PC File":          ItemData(ITEM_ID_BASE + 800, ItemClassification.useful),
+    "Outpost PC File":          ItemData(ITEM_ID_BASE + 800, ItemClassification.progression),
     "Clover App":               ItemData(ITEM_ID_BASE + 801, ItemClassification.progression),
-    "Prototype Files":          ItemData(ITEM_ID_BASE + 802, ItemClassification.useful),
-    "Cedric Files":             ItemData(ITEM_ID_BASE + 803, ItemClassification.useful),
-    "Rue Files":                ItemData(ITEM_ID_BASE + 804, ItemClassification.useful),
+#    "Prototype Files":          ItemData(ITEM_ID_BASE + 802, ItemClassification.progression),
+#    "Cedric Files":             ItemData(ITEM_ID_BASE + 803, ItemClassification.progression),
+#    "Rue Files":                ItemData(ITEM_ID_BASE + 804, ItemClassification.progression),
 }
 
-# ── Collectible wallpapers ────────────────────────────────────────────────────
+# ── Collectible wallpapers (AP items use 1100+ range)
 wallpaper_items = {
-    "Wallpaper: Outpost":           ItemData(ITEM_ID_BASE + 401, ItemClassification.filler),
-    "Wallpaper: Factory":           ItemData(ITEM_ID_BASE + 402, ItemClassification.filler),
-    "Wallpaper: Navigate":          ItemData(ITEM_ID_BASE + 403, ItemClassification.filler),
-    "Wallpaper: Courtyard":         ItemData(ITEM_ID_BASE + 404, ItemClassification.filler),
-    "Wallpaper: Calamus and Alula": ItemData(ITEM_ID_BASE + 405, ItemClassification.filler),
-    "Wallpaper: Catwalks":          ItemData(ITEM_ID_BASE + 406, ItemClassification.filler),
-    "Wallpaper: Library Stroll":    ItemData(ITEM_ID_BASE + 407, ItemClassification.filler),
-    "Wallpaper: Secret RAM Club":   ItemData(ITEM_ID_BASE + 408, ItemClassification.filler),
-    "Wallpaper: Lamplighter":       ItemData(ITEM_ID_BASE + 409, ItemClassification.filler),
-    "Wallpaper: Cafe":              ItemData(ITEM_ID_BASE + 410, ItemClassification.filler),
-    "Wallpaper: Maize":             ItemData(ITEM_ID_BASE + 411, ItemClassification.filler),
-    "Wallpaper: Tower":             ItemData(ITEM_ID_BASE + 412, ItemClassification.filler),
-    "Wallpaper: Prophets":          ItemData(ITEM_ID_BASE + 413, ItemClassification.filler),
-    "Wallpaper: Memory":            ItemData(ITEM_ID_BASE + 414, ItemClassification.filler),
-    "Wallpaper: Reflection":        ItemData(ITEM_ID_BASE + 415, ItemClassification.filler),
-    "Wallpaper: From Niko":         ItemData(ITEM_ID_BASE + 416, ItemClassification.filler),
+    "Wallpaper: Outpost":           ItemData(ITEM_ID_BASE + 1100, ItemClassification.filler),
+    "Wallpaper: Factory":           ItemData(ITEM_ID_BASE + 1101, ItemClassification.filler),
+    "Wallpaper: Navigate":          ItemData(ITEM_ID_BASE + 1102, ItemClassification.filler),
+    "Wallpaper: Courtyard":         ItemData(ITEM_ID_BASE + 1103, ItemClassification.filler),
+    "Wallpaper: Calamus and Alula": ItemData(ITEM_ID_BASE + 1104, ItemClassification.filler),
+    "Wallpaper: Catwalks":          ItemData(ITEM_ID_BASE + 1105, ItemClassification.filler),
+    "Wallpaper: Library Stroll":    ItemData(ITEM_ID_BASE + 1106, ItemClassification.filler),
+    "Wallpaper: Secret RAM Club":   ItemData(ITEM_ID_BASE + 1107, ItemClassification.filler),
+    "Wallpaper: Lamplighter":       ItemData(ITEM_ID_BASE + 1108, ItemClassification.filler),
+    "Wallpaper: Cafe":              ItemData(ITEM_ID_BASE + 1109, ItemClassification.filler),
+    "Wallpaper: Maize":             ItemData(ITEM_ID_BASE + 1110, ItemClassification.filler),
+    "Wallpaper: Tower":             ItemData(ITEM_ID_BASE + 1111, ItemClassification.filler),
+#    "Wallpaper: Prophets":          ItemData(ITEM_ID_BASE + 1112, ItemClassification.filler),
+#    "Wallpaper: Memory":            ItemData(ITEM_ID_BASE + 1113, ItemClassification.filler),
+#    "Wallpaper: Reflection":        ItemData(ITEM_ID_BASE + 1114, ItemClassification.filler),
+#    "Wallpaper: From Niko":         ItemData(ITEM_ID_BASE + 1115, ItemClassification.filler),
 }
 
-# ── Friend profiles ───────────────────────────────────────────────────────────
+# ── Friend profiles (AP items use 1300+ range)
 profile_items = {
-    "Profile: ProphetBot":        ItemData(ITEM_ID_BASE + 426, ItemClassification.filler),
-    "Profile: Silver":            ItemData(ITEM_ID_BASE + 427, ItemClassification.filler),
-    "Profile: Rowbot":            ItemData(ITEM_ID_BASE + 428, ItemClassification.filler),
-    "Profile: Shepherd":          ItemData(ITEM_ID_BASE + 429, ItemClassification.filler),
-    "Profile: Magpie":            ItemData(ITEM_ID_BASE + 430, ItemClassification.filler),
-    "Profile: Calamus":           ItemData(ITEM_ID_BASE + 431, ItemClassification.filler),
-    "Profile: Alula":             ItemData(ITEM_ID_BASE + 432, ItemClassification.filler),
-    "Profile: Maize":             ItemData(ITEM_ID_BASE + 433, ItemClassification.filler),
-    "Profile: Ling":              ItemData(ITEM_ID_BASE + 434, ItemClassification.filler),
-    "Profile: Watcher":           ItemData(ITEM_ID_BASE + 435, ItemClassification.filler),
-    "Profile: Mason":             ItemData(ITEM_ID_BASE + 436, ItemClassification.filler),
-    "Profile: Lamplighter":       ItemData(ITEM_ID_BASE + 437, ItemClassification.filler),
-    "Profile: Kelvin":            ItemData(ITEM_ID_BASE + 438, ItemClassification.filler),
-    "Profile: Kip":               ItemData(ITEM_ID_BASE + 439, ItemClassification.filler),
-    "Profile: George":            ItemData(ITEM_ID_BASE + 440, ItemClassification.filler),
-    "Profile: Prototype":         ItemData(ITEM_ID_BASE + 446, ItemClassification.filler),
-    "Profile: Cedric":            ItemData(ITEM_ID_BASE + 447, ItemClassification.filler),
-    "Profile: Rue":               ItemData(ITEM_ID_BASE + 448, ItemClassification.filler),
-    "Profile: The World Machine": ItemData(ITEM_ID_BASE + 449, ItemClassification.filler),
-    "Profile: The Author":        ItemData(ITEM_ID_BASE + 450, ItemClassification.filler),
-    "Profile: Niko":              ItemData(ITEM_ID_BASE + 451, ItemClassification.filler),
+    "Profile: ProphetBot":        ItemData(ITEM_ID_BASE + 1300, ItemClassification.filler),
+    "Profile: Silver":            ItemData(ITEM_ID_BASE + 1301, ItemClassification.filler),
+    "Profile: Rowbot":            ItemData(ITEM_ID_BASE + 1302, ItemClassification.filler),
+    "Profile: Shepherd":          ItemData(ITEM_ID_BASE + 1303, ItemClassification.filler),
+    "Profile: Magpie":            ItemData(ITEM_ID_BASE + 1304, ItemClassification.filler),
+    "Profile: Calamus":           ItemData(ITEM_ID_BASE + 1305, ItemClassification.filler),
+    "Profile: Alula":             ItemData(ITEM_ID_BASE + 1306, ItemClassification.filler),
+    "Profile: Maize":             ItemData(ITEM_ID_BASE + 1307, ItemClassification.filler),
+    "Profile: Ling":              ItemData(ITEM_ID_BASE + 1308, ItemClassification.filler),
+    "Profile: Watcher":           ItemData(ITEM_ID_BASE + 1309, ItemClassification.filler),
+    "Profile: Mason":             ItemData(ITEM_ID_BASE + 1310, ItemClassification.filler),
+    "Profile: Lamplighter":       ItemData(ITEM_ID_BASE + 1311, ItemClassification.filler),
+    "Profile: Kelvin":            ItemData(ITEM_ID_BASE + 1312, ItemClassification.filler),
+    "Profile: Kip":               ItemData(ITEM_ID_BASE + 1313, ItemClassification.filler),
+    "Profile: George":            ItemData(ITEM_ID_BASE + 1314, ItemClassification.filler),
+#    "Profile: Prototype":         ItemData(ITEM_ID_BASE + 1315, ItemClassification.filler),
+#    "Profile: Cedric":            ItemData(ITEM_ID_BASE + 1316, ItemClassification.filler),
+#    "Profile: Rue":               ItemData(ITEM_ID_BASE + 1317, ItemClassification.filler),
+#    "Profile: The World Machine": ItemData(ITEM_ID_BASE + 1318, ItemClassification.filler),
+#    "Profile: The Author":        ItemData(ITEM_ID_BASE + 1319, ItemClassification.filler),
+#    "Profile: Niko":              ItemData(ITEM_ID_BASE + 1320, ItemClassification.filler),
 }
 
-# ── Desktop themes ────────────────────────────────────────────────────────────
+# ── Desktop themes (AP items use 1200+ range)
 theme_items = {
-    "Theme: Blue":    ItemData(ITEM_ID_BASE + 461, ItemClassification.filler),
-    "Theme: Cyan":    ItemData(ITEM_ID_BASE + 462, ItemClassification.filler),
-    "Theme: Green":   ItemData(ITEM_ID_BASE + 463, ItemClassification.filler),
-    "Theme: Yellow":  ItemData(ITEM_ID_BASE + 464, ItemClassification.filler),
-    "Theme: Red":     ItemData(ITEM_ID_BASE + 465, ItemClassification.filler),
-    "Theme: Pink":    ItemData(ITEM_ID_BASE + 466, ItemClassification.filler),
-    "Theme: Orange":  ItemData(ITEM_ID_BASE + 467, ItemClassification.filler),
-    "Theme: White":   ItemData(ITEM_ID_BASE + 468, ItemClassification.filler),
-    "Theme: Rainbow": ItemData(ITEM_ID_BASE + 469, ItemClassification.filler),
+    "Theme: Blue":    ItemData(ITEM_ID_BASE + 1200, ItemClassification.filler),
+    "Theme: Teal":    ItemData(ITEM_ID_BASE + 1201, ItemClassification.filler),
+    "Theme: Green":   ItemData(ITEM_ID_BASE + 1202, ItemClassification.filler),
+    "Theme: Yellow":  ItemData(ITEM_ID_BASE + 1203, ItemClassification.filler),
+    "Theme: Red":     ItemData(ITEM_ID_BASE + 1204, ItemClassification.filler),
+    "Theme: Pink":    ItemData(ITEM_ID_BASE + 1205, ItemClassification.filler),
+    "Theme: Orange":  ItemData(ITEM_ID_BASE + 1206, ItemClassification.filler),
+    "Theme: White":   ItemData(ITEM_ID_BASE + 1207, ItemClassification.filler),
+    "Theme: Rainbow": ItemData(ITEM_ID_BASE + 1208, ItemClassification.filler),
 }
+
+badge_items = {
+        "Badge: Chaotic Evil": ItemData(ITEM_ID_BASE + 1400, ItemClassification.filler),
+        "Badge: Shock": ItemData(ITEM_ID_BASE + 1401, ItemClassification.filler),
+        "Badge: Extreme Bartering": ItemData(ITEM_ID_BASE + 1402, ItemClassification.filler),
+        "Badge: Ram Whisperer": ItemData(ITEM_ID_BASE + 1403, ItemClassification.filler),
+        "Badge: We Ride at Dawn": ItemData(ITEM_ID_BASE + 1404, ItemClassification.filler),
+        "Badge: Secret": ItemData(ITEM_ID_BASE + 1405, ItemClassification.filler),
+        "Badge: Bookworm": ItemData(ITEM_ID_BASE + 1406, ItemClassification.filler),
+        "Badge: Pancakes": ItemData(ITEM_ID_BASE + 1407, ItemClassification.filler),
+        "Badge: Rebirth": ItemData(ITEM_ID_BASE + 1408, ItemClassification.filler),
+        "Badge: OneShot": ItemData(ITEM_ID_BASE + 1409, ItemClassification.filler),
+        }
 
 # ── Filler and traps ──────────────────────────────────────────────────────────
 filler_items = {
@@ -265,6 +285,7 @@ item_table = {
     **wallpaper_items,
     **profile_items,
     **theme_items,
+    **badge_items,
     **filler_items,
     **victory_item,
 }
