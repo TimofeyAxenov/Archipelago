@@ -141,7 +141,7 @@ key_items = {
     "Convex Lens":             ItemData(ITEM_ID_BASE + 41, ItemClassification.progression),
     "Thin Lens":               ItemData(ITEM_ID_BASE + 42, ItemClassification.progression),
     "Thick Lens":              ItemData(ITEM_ID_BASE + 43, ItemClassification.progression),
-    "Kips Library Card":       ItemData(ITEM_ID_BASE + 46, ItemClassification.progression),
+    "Kip's Library Card":      ItemData(ITEM_ID_BASE + 46, ItemClassification.progression),
     "Glitter Glue":            ItemData(ITEM_ID_BASE + 44, ItemClassification.progression),
     "Photo of Niko":           ItemData(ITEM_ID_BASE + 45, ItemClassification.progression),
     "Photo of Niko (Blink)":   ItemData(ITEM_ID_BASE + 66, ItemClassification.filler),
