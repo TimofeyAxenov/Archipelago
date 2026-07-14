@@ -40,9 +40,9 @@ def set_rules(world: "OneShotWorld"):
                       state.has("Refuge Key", player))
 
     # Refuge Lower requires Weird Film + Taped Button (craft).
-    if incl_files:
-        ent("Refuge Upper -> Refuge Lower",
-            lambda state: state.has_all(["Weird Film", "Taped Button"], player))
+    ent("Refuge Upper -> Refuge Lower",
+        lambda state: state.has_all(["Weird Film", "Taped Button"], player)
+        if incl_crafts else state.has_all(["Weird Film", "Scissors", "Metal Can", "Magnets"], player))
 
     ent("Refuge Lower -> Tower",
         lambda state: state.has("Die", player) and
@@ -53,43 +53,57 @@ def set_rules(world: "OneShotWorld"):
     # ── Starter House ─────────────────────────────────────────────────────────
     loc("Lightbulb", lambda state: state.has("Basement Key", player))
 
-    if incl_files:
+    if incl_crafts:
         loc("Basement Key", lambda state: state.has("Torch", player))
         loc("Empty Bottle", lambda state: state.has_all(["Dry Branch", "Bottle of Alcohol"], player))
         loc("Wet Branch", lambda state: state.has_all(["Dry Branch", "Bottle of Alcohol"], player))
         loc("Torch", lambda state: state.has("Wet Branch", player))
 
     # ── Barrens ───────────────────────────────────────────────────────────────
+    # Components needed to make Charged Battery (always relevant in-game)
+    batt_components = ["Camera", "Screwdriver", "Broken Battery", "Lightbulb"]
+
     loc("Broken Battery", lambda state: state.has("Crowbar", player)
-                          if incl_crafts else True)
+                          if incl_crafts else state.has("Metal Rod", player))
 
-    loc("Badge: Shock", lambda state: state.has("Charged Battery", player)
-                         if incl_crafts else True)
+    if incl_crafts:
+        loc("Badge: Shock", lambda state: state.has("Charged Battery", player))
+    else:
+        loc("Badge: Shock", lambda state: state.has_all(batt_components, player))
 
-    loc("DOCUMENT oneshot", lambda state: state.has("Charged Battery", player)
-                             if incl_crafts else True)
+    # DOCUMENT oneshot — computer that needs Charged Battery to boot
+    if incl_files:
+        if incl_crafts:
+            loc("DOCUMENT oneshot", lambda state: state.has("Charged Battery", player))
+        else:
+            loc("DOCUMENT oneshot", lambda state: state.has_all(batt_components, player))
 
-    loc("Strange Journal", lambda state: state.has("Outpost PC File", player)
-                            if incl_files else True)
-
-    loc("Gas Mask", lambda state: state.has("Outpost PC File", player)
-                     if incl_files else True)
+    # Gas Mask / Strange Journal — behind the password from DOCUMENT oneshot
+    if incl_files:
+        loc("Strange Journal", lambda state: state.has("Outpost PC File", player))
+        loc("Gas Mask", lambda state: state.has("Outpost PC File", player))
+    elif incl_crafts:
+        loc("Strange Journal", lambda state: state.has("Charged Battery", player))
+        loc("Gas Mask", lambda state: state.has("Charged Battery", player))
+    else:
+        loc("Strange Journal", lambda state: state.has_all(batt_components, player))
+        loc("Gas Mask", lambda state: state.has_all(batt_components, player))
 
     loc("Rubber Gloves", lambda state: state.has("Gas Mask", player))
     loc("Empty Syringe", lambda state: state.has("Gas Mask", player))
     loc("Theme: Teal", lambda state: state.has("Gas Mask", player))
 
     loc("Sponge", lambda state: state.has_all(["Gas Mask", "Crowbar"], player)
-                  if incl_crafts else state.has("Gas Mask", player))
+                  if incl_crafts else state.has_all(["Gas Mask", "Metal Rod"], player))
 
     loc("Wallpaper: Factory", lambda state: state.has_all(["Gas Mask", "Crowbar"], player)
-                               if incl_crafts else state.has("Gas Mask", player))
+                               if incl_crafts else state.has_all(["Gas Mask", "Metal Rod"], player))
 
     loc("Amber", lambda state: state.has_all(["Charged Battery", "Wet Sponge", "Rubber Gloves"], player)
-                  if incl_crafts else state.has("Rubber Gloves", player))
+                  if incl_crafts else state.has_all(["Rubber Gloves", batt_components, "Sponge", "Bottle of Acid"], player))
 
     loc("Profile: Silver", lambda state: state.has_all(["Charged Battery", "Wet Sponge", "Rubber Gloves"], player)
-                            if incl_crafts else state.has("Rubber Gloves", player))
+                            if incl_crafts else state.has_all(["Rubber Gloves", batt_components, "Sponge", "Bottle of Acid"], player))
 
     if incl_crafts:
         loc("Crowbar", lambda state: state.has("Metal Rod", player))
@@ -111,7 +125,7 @@ def set_rules(world: "OneShotWorld"):
     loc("Badge: Extreme Bartering", lambda state: state.has("Novelty T-Shirt", player))
 
     loc("Wallpaper: Calamus and Alula", lambda state: state.has("Feather Pen", player)
-                                          if incl_crafts else True)
+                                          if incl_crafts else state.has_all["Bottle of Dye", "Feather"], player)
 
     if incl_crafts:
         loc("Feather Pen", lambda state: state.has_all(["Feather", "Bottle of Dye"], player))
@@ -139,25 +153,25 @@ def set_rules(world: "OneShotWorld"):
                 ["Concave Lens", "Convex Lens", "Thick Lens", "Thin Lens"], player))
 
     loc("Wallpaper: Maize", lambda state: state.has_all(["Dirt", "Seed", "Medicated Water"], player)
-                             if incl_crafts else state.has_all(["Dirt", "Seed"], player))
+                             if incl_crafts else state.has_all(["Dirt", "Seed", "Tube of Water", "Water Pill"], player))
 
     loc("Badge: Bookworm", lambda state: state.has("Niko's Library Card", player)
-                            if incl_crafts else True)
+                            if incl_crafts else state.has_all(["Kip's Library Card", "Glitter Glue", "Photo of Niko"]))
 
     loc("Die", lambda state: state.has_all(["Niko's Library Card", "Strange Journal"], player)
-               if incl_crafts else state.has("Strange Journal", player))
+               if incl_crafts else state.has_all(["Strange Journal", "Photo of Niko", "Kip's Library Card", "Glitter Glue"], player))
 
     loc("Profile: George", lambda state: state.has_all(["Niko's Library Card", "Strange Journal"], player)
-                            if incl_crafts else state.has("Strange Journal", player))
+                            if incl_crafts else state.has_all(["Strange Journal", "Photo of Niko", "Kip's Library Card", "Glitter Glue"], player))
 
     loc("Wallpaper: Cafe", lambda state: state.has_all(["Niko's Library Card", "Strange Journal"], player)
-                            if incl_crafts else state.has("Strange Journal", player))
+                            if incl_crafts else state.has_all(["Strange Journal", "Photo of Niko", "Kip's Library Card", "Glitter Glue"], player))
 
     loc("Badge: Pancakes", lambda state: state.has_all(["Niko's Library Card", "Strange Journal"], player)
-                            if incl_crafts else state.has("Strange Journal", player))
+                            if incl_crafts else state.has_all(["Strange Journal", "Photo of Niko", "Kip's Library Card", "Glitter Glue"], player))
 
     loc("Badge: Rebirth", lambda state: state.has_all(["Seed", "Dirt", "Medicated Water"], player)
-                           if incl_crafts else state.has_all(["Seed", "Dirt"], player))
+                           if incl_crafts else state.has_all(["Seed", "Dirt", "Tube of Water", "Water Pill"], player))
 
     if incl_crafts:
         loc("Medicated Water", lambda state: state.has_all(["Tube of Water", "Water Pill"], player))

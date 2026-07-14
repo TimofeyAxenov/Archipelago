@@ -25,6 +25,8 @@ def create_itempool(world: "OneShotWorld") -> List[Item]:
             continue  # precollected based on StartingZone option
         elif name == "Refuge Key" and starting_zone == 3:
             continue  # precollected based on StartingZone option
+        elif name == "Bottle of Dye" and not world.options.IncludeCrafts:
+            itempool.append(OneShotItem(name, ItemClassification.useful, item_table[name].ap_code, world.player))
         else:
             itempool.append(create_item(world, name))
 
