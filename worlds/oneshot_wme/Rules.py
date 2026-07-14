@@ -125,7 +125,7 @@ def set_rules(world: "OneShotWorld"):
     loc("Badge: Extreme Bartering", lambda state: state.has("Novelty T-Shirt", player))
 
     loc("Wallpaper: Calamus and Alula", lambda state: state.has("Feather Pen", player)
-                                          if incl_crafts else state.has_all["Bottle of Dye", "Feather"], player)
+                                          if incl_crafts else state.has_all(["Bottle of Dye", "Feather"], player)
 
     if incl_crafts:
         loc("Feather Pen", lambda state: state.has_all(["Feather", "Bottle of Dye"], player))
