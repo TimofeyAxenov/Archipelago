@@ -245,7 +245,7 @@ profile_items = {
 # ── Desktop themes (AP items use 1200+ range)
 theme_items = {
     "Theme: Blue":    ItemData(ITEM_ID_BASE + 1200, ItemClassification.filler),
-    "Theme: Teal":    ItemData(ITEM_ID_BASE + 1201, ItemClassification.filler),
+    "Theme: Cyan":    ItemData(ITEM_ID_BASE + 1201, ItemClassification.filler),
     "Theme: Green":   ItemData(ITEM_ID_BASE + 1202, ItemClassification.filler),
     "Theme: Yellow":  ItemData(ITEM_ID_BASE + 1203, ItemClassification.filler),
     "Theme: Red":     ItemData(ITEM_ID_BASE + 1204, ItemClassification.filler),
@@ -258,7 +258,7 @@ theme_items = {
 badge_items = {
         "Badge: Chaotic Evil": ItemData(ITEM_ID_BASE + 1400, ItemClassification.filler),
         "Badge: Shock": ItemData(ITEM_ID_BASE + 1401, ItemClassification.filler),
-        "Badge: Extreme Bartering": ItemData(ITEM_ID_BASE + 1402, ItemClassification.filler),
+#        "Badge: Extreme Bartering": ItemData(ITEM_ID_BASE + 1402, ItemClassification.filler),
         "Badge: Ram Whisperer": ItemData(ITEM_ID_BASE + 1403, ItemClassification.filler),
         "Badge: We Ride at Dawn": ItemData(ITEM_ID_BASE + 1404, ItemClassification.filler),
         "Badge: Secret": ItemData(ITEM_ID_BASE + 1405, ItemClassification.filler),

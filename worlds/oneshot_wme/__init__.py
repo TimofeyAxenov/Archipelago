@@ -46,6 +46,36 @@ class OneShotWorld(World):
     def create_items(self):
         self.multiworld.itempool += create_itempool(self)
 
+        if not self.options.IncludeCrafts:
+            for item in Items.craft_items.keys():
+                loc = self.multiworld.get_location(item)
+                loc.place_locked_item(self.create_item(item))
+
+        if not self.options.IncludeBadges:
+            for item in Items.badge_items.keys():
+                loc = self.multiworld.get_location(item)
+                loc.place_locked_item(self.create_item(item))
+
+        if not self.options.IncludeExternalFiles:
+            for item in Items.file_items.keys():
+                loc = self.multiworld.get_location(item)
+                loc.place_locked_item(self.create_item(item))
+
+        if not self.options.IncludeFriends:
+            for item in Items.friends_locations.keys():
+                loc = self.multiworld.get_location(item)
+                loc.place_locked_item(self.create_item(item))
+
+        if not self.options.IncludeThemes:
+            for item in Items.theme_items.keys():
+                loc = self.multiworld.get_location(item)
+                loc.place_locked_item(self.create_item(item))
+
+        if not self.options.IncludeWallpapers:
+            for item in Items.wallpaper_items.keys():
+                loc = self.multiworld.get_location(item)
+                loc.place_locked_item(self.create_item(item))
+
         starting_zone = self.options.StartingZone.value
         if starting_zone == 1:
             self.multiworld.push_precollected(self.create_item("Barrens Key"))

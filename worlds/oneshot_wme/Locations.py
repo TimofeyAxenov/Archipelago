@@ -41,22 +41,22 @@ def get_location_names() -> Dict[str, int]:
             if data.ap_code is not None}
 
 
-def is_valid_location(world: "OneShotWorld", name: str) -> bool:
-    if name in event_locations:
-        return False
-    if name in crafts_locations and not did_include_crafts(world):
-        return False
-    if name in themes_locations and not did_include_themes(world):
-        return False
-    if name in friends_locations and not did_include_friends(world):
-        return False
-    if name in wallpapers_locations and not did_include_wallpapers(world):
-        return False
-    if name in files_locations and not did_include_files(world):
-        return False
-    if name in badges_locations and not did_include_badges(world):
-        return False
-    return True
+#def is_valid_location(world: "OneShotWorld", name: str) -> bool:
+#    if name in event_locations:
+#        return False
+#    if name in crafts_locations and not did_include_crafts(world):
+#        return False
+#    if name in themes_locations and not did_include_themes(world):
+#        return False
+#    if name in friends_locations and not did_include_friends(world):
+#        return False
+#    if name in wallpapers_locations and not did_include_wallpapers(world):
+#        return False
+#    if name in files_locations and not did_include_files(world):
+#        return False
+#    if name in badges_locations and not did_include_badges(world):
+#        return False
+#    return True
 
 
 # ── Starter House ─────────────────────────────────────────────────────────────
@@ -86,7 +86,7 @@ barrens_locations = {
 glen_locations = {
     "Seed":                         LocData(LOC_ID_BASE + 30, "Glen"),
     "Wool":                         LocData(LOC_ID_BASE + 31, "Glen"),
-    "Ink":                          LocData(LOC_ID_BASE + 32, "Glen"),
+    "Bottle of Dye":                          LocData(LOC_ID_BASE + 32, "Glen"),
     "Novelty T-Shirt":              LocData(LOC_ID_BASE + 33, "Glen"),
     "Tube of Water":                LocData(LOC_ID_BASE + 34, "Glen"),
     "Feather":                      LocData(LOC_ID_BASE + 35, "Glen"),
@@ -132,7 +132,6 @@ crafts_locations = {
     "Torch":                        LocData(LOC_ID_BASE + 101, "Starter House"),
     "Empty Bottle":                 LocData(LOC_ID_BASE + 102, "Starter House"),
     "Crowbar":                      LocData(LOC_ID_BASE + 103, "Barrens"),
-    "Filled Bottle":                LocData(LOC_ID_BASE + 104, "Barrens"),
     "Filled Syringe":               LocData(LOC_ID_BASE + 105, "Barrens"),
     "Bottle of Smoke":              LocData(LOC_ID_BASE + 106, "Barrens"),
     "Bottle of Acid":               LocData(LOC_ID_BASE + 107, "Barrens"),
@@ -151,7 +150,7 @@ crafts_locations = {
 
 # ── External TWM files ────────────────────────────────────────────────────────
 files_locations = {
-    "DOCUMENT oneshot":             LocData(LOC_ID_BASE + 200, "Barrens"),
+    "Outpost PC File":             LocData(LOC_ID_BASE + 200, "Barrens"),
     "Clover App":                   LocData(LOC_ID_BASE + 201, "Tower"),
 #    "Prototype File":               LocData(LOC_ID_BASE + 202, "Solstice"),
 #    "Cedric File":                  LocData(LOC_ID_BASE + 203, "Solstice"),
@@ -204,7 +203,7 @@ friends_locations = {
 # ── Desktop themes ────────────────────────────────────────────────────────────
 themes_locations = {
     "Theme: Blue":                LocData(LOC_ID_BASE + 500, "Barrens"),
-    "Theme: Teal":                LocData(LOC_ID_BASE + 501, "Barrens"),
+    "Theme: Cyan":                LocData(LOC_ID_BASE + 501, "Barrens"),
     "Theme: Yellow":              LocData(LOC_ID_BASE + 502, "Glen"),
     "Theme: Green":               LocData(LOC_ID_BASE + 503, "Glen"),
     "Theme: Red":                 LocData(LOC_ID_BASE + 504, "Refuge Upper"),
@@ -218,7 +217,7 @@ themes_locations = {
 badges_locations = {
     "Badge: Chaotic Evil":        LocData(LOC_ID_BASE + 600, "Barrens"),
     "Badge: Shock":               LocData(LOC_ID_BASE + 601, "Barrens"),
-    "Badge: Extreme Bartering":   LocData(LOC_ID_BASE + 602, "Glen"),
+#    "Badge: Extreme Bartering":   LocData(LOC_ID_BASE + 602, "Glen"),
     "Badge: Ram Whisperer":       LocData(LOC_ID_BASE + 603, "Glen"),
     "Badge: We Ride at Dawn":     LocData(LOC_ID_BASE + 604, "Refuge Upper"),
     "Badge: Secret":              LocData(LOC_ID_BASE + 605, "Refuge Lower"),
